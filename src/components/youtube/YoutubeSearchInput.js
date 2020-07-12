@@ -3,8 +3,7 @@ import { observable, action } from "mobx";
 import { observer } from 'mobx-react'
 import { View } from "react-native";
 import { Searchbar } from 'react-native-paper';
-import YoutubeSearchStore from "../../stores/YoutubeSearchStore";
-import {debounce} from "../../lib/debounce";
+import YoutubeSearchStore from "../../stores/youtube/YouTubeSearchStore";
 
 @observer
 class YoutubeSearchInput extends React.Component {
@@ -22,26 +21,28 @@ class YoutubeSearchInput extends React.Component {
                 <Searchbar
                     placeholder="Search"
                     onChangeText={this.onChangeText}
+                    onSubmitEditing={this.onSubmitEditing}
                     value={this.searchQuery}
+                    autoCapitalize="none"
                 />
             </View>
         );
     }
 
+    onSubmitEditing = (event) => {
+        const query = event.nativeEvent.text;
+
+        YoutubeSearchStore.search(query);
+    }
+
     @action
     onChangeText = (query) => {
-        console.log("onChangeText")
         this.searchQuery = query;
 
-        this.onSearch(query);
+        if (query === "") {
+            YoutubeSearchStore.search(query);
+        }
     };
-
-    @action
-    onSearch = debounce((query) => {
-        console.log("onSearch");
-        YoutubeSearchStore.search(query);
-    }, 250, false);
-
 }
 
 export default YoutubeSearchInput;

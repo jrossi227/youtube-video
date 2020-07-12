@@ -1,7 +1,8 @@
 import React from "react";
 import { observer } from 'mobx-react'
-import { View, Text, ScrollView } from "react-native";
-import YoutubeSearchStore from "../../stores/YoutubeSearchStore";
+import { View, ScrollView } from "react-native";
+import YoutubeSearchStore from "../../stores/youtube/YouTubeSearchStore";
+import { Title, Paragraph, Caption, Card } from 'react-native-paper';
 
 @observer
 class YoutubeVideoInfo extends React.Component {
@@ -11,14 +12,14 @@ class YoutubeVideoInfo extends React.Component {
         const youtubeSearch = YoutubeSearchStore.currentYoutubeSearch;
         let textView;
         if (!youtubeSearch || !youtubeSearch.isLoaded) {
-            return null
+            return null;
         } else {
             textView = this.getVideoSummary(youtubeSearch);
         }
 
         return (
-            <View style={styles.searchInputContainer}>
-                <ScrollView style={styles.scrollView}>
+            <View style={styles.videoInfoContainer}>
+                <ScrollView>
                     {textView}
                 </ScrollView>
             </View>
@@ -30,17 +31,13 @@ class YoutubeVideoInfo extends React.Component {
         const {title, description, channelTitle} = youtubeSearch;
 
         return (
-            <>
-                <View>
-                    <Text>{title}</Text>
-                </View>
-                <View>
-                    <Text>{description}</Text>
-                </View>
-                <View>
-                    <Text>{channelTitle}</Text>
-                </View>
-            </>
+            <Card>
+                <Card.Content>
+                    <Title>{title}</Title>
+                    <Paragraph>{description}</Paragraph>
+                    <Caption>{channelTitle}</Caption>
+                </Card.Content>
+            </Card>
         )
     }
 
@@ -49,9 +46,7 @@ class YoutubeVideoInfo extends React.Component {
 export default YoutubeVideoInfo;
 
 const styles = {
-    searchInputContainer: {
+    videoInfoContainer: {
         flex: 1
-    },
-    scrollView: {
     }
 }

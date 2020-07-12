@@ -1,7 +1,7 @@
-import YoutubeSearch from "../models/YoutubeSearch";
+import YouTubeSearch from "../../models/youtube/YouTubeSearch";
 import { observable, action, computed } from "mobx";
 
-class YoutubeSearchStore {
+class YouTubeSearchStore {
 
     youtubeSearchByQuery = new Map();
 
@@ -11,7 +11,6 @@ class YoutubeSearchStore {
     @action
     search(query) {
 
-        console.log(query);
         this.searchQuery = query;
 
         // don't search empty string
@@ -23,7 +22,7 @@ class YoutubeSearchStore {
         if (this.youtubeSearchByQuery.has(query)) {
             youtubeSearch = this.youtubeSearchByQuery.get(query)
         } else {
-            youtubeSearch = new YoutubeSearch(query);
+            youtubeSearch = new YouTubeSearch(query);
             this.youtubeSearchByQuery.set(query, youtubeSearch);
         }
 
@@ -37,4 +36,4 @@ class YoutubeSearchStore {
 
 }
 
-export default new YoutubeSearchStore();
+export default new YouTubeSearchStore();

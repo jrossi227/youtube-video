@@ -11,7 +11,7 @@ import {observable, runInAction, computed} from "mobx";
 
 const API_KEY = "AIzaSyAhqJrf7PgBvOAFp2Ifp4vbv-eKgYtPqcM";
 
-class YoutubeSearch {
+class YouTubeSearch {
 
     loadPromise = null;
 
@@ -30,8 +30,6 @@ class YoutubeSearch {
         this.query = query;
     }
 
-    //returns a Promise that resolves into the youtube data
-
     load() {
 
         //already loaded
@@ -47,7 +45,7 @@ class YoutubeSearch {
         const queryObj = {
             part: "snippet",
             order: "viewCount",
-            q: encodeURIComponent(this.query),
+            q: this.query,
             type: "video",
             videoDefinition: "high",
             key: API_KEY,
@@ -55,8 +53,6 @@ class YoutubeSearch {
         }
 
         const url = `https://www.googleapis.com/youtube/v3/search?${queryString.stringify(queryObj)}`;
-
-        console.log("url", url);
 
         this.loadPromise = fetch(url, {
             method: "GET",
@@ -69,8 +65,6 @@ class YoutubeSearch {
                 runInAction(() => {
                     this.data = json;
                     this.isLoaded = true;
-
-                    console.log("data", JSON.stringify(json, null, 2));
 
                     if (this.data && this.data.items && this.data.items.length > 0) {
                         const [item] = this.data.items;
@@ -108,4 +102,4 @@ class YoutubeSearch {
 
 }
 
-export default YoutubeSearch;
+export default YouTubeSearch;

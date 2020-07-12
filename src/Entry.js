@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
+import { DefaultTheme } from 'react-native-paper';
 
 // You can import from local files
-import YoutubeSearchInput from './src/components/youtube/YoutubeSearchInput';
-import YoutubeVideo from './src/components/youtube/YoutubeVideo';
-import YoutubeVideoInfo from './src/components/youtube/YoutubeVideoInfo';
+import YoutubeSearchInput from './components/youtube/YoutubeSearchInput';
+import YoutubeVideo from './components/youtube/YoutubeVideo';
+import YoutubeVideoInfo from './components/youtube/YoutubeVideoInfo';
 
-// or any pure javascript modules available in npm
 import { Provider as PaperProvider } from 'react-native-paper';
 
 import { registerRootComponent } from 'expo';
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: DefaultTheme.colors.background,
   },
   searchInputContainer: {
     padding: containerPadding,

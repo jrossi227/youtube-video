@@ -2,17 +2,18 @@ import React from "react";
 import { observer } from 'mobx-react'
 import { View, Text } from "react-native";
 import WebView from "react-native-webview";
-import YoutubeSearchStore from "../../stores/YoutubeSearchStore";
+import YoutubeSearchStore from "../../stores/youtube/YouTubeSearchStore";
+import { DefaultTheme } from 'react-native-paper';
+import queryString from "query-string";
 
 @observer
 class YoutubeVideo extends React.Component {
 
     render() {
-
         const youtubeSearch = YoutubeSearchStore.currentYoutubeSearch;
 
-        let placeholderText = "Search for a video"
-        if (youtubeSearch && youtubeSearch.isLoading) {
+        let placeholderText = "Search for a video";
+        if (youtubeSearch && youtubeSearch.isLoading && !youtubeSearch.error) {
             placeholderText = "Loading..."
         }
 
@@ -27,22 +28,17 @@ class YoutubeVideo extends React.Component {
     }
 
     getVideo() {
-
-        console.log("getVideo");
-
         const youtubeSearch = YoutubeSearchStore.currentYoutubeSearch;
         if (!youtubeSearch) {
             return null;
         }
 
-        console.log("getVideo");
         if (youtubeSearch.error) {
             return (
                 <View style={styles.placeholderTextContainer}>
                     <Text style={styles.errorText}>Error loading video</Text>
                 </View>
             )
-
         }
 
         if (!youtubeSearch.isLoaded) {
@@ -51,12 +47,19 @@ class YoutubeVideo extends React.Component {
 
         const videoId = youtubeSearch.videoId;
 
+        const queryObj = {
+            rel: 0,
+            autoplay: 0,
+            showInfo: 0,
+            controls: 1,
+        }
+
         return (
             <WebView
                 key={videoId}
                 style={{flex:1}}
                 javaScriptEnabled={true}
-                source={{uri: `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=0&showinfo=0&controls=1`}}
+                source={{uri: `https://www.youtube.com/embed/${videoId}?${queryString.stringify(queryObj)}`}}
             />
         )
     }
@@ -69,7 +72,7 @@ const styles = {
     videoContainer: {
         position: "relative",
         flex: 1,
-        backgroundColor: "#DCDCDC"
+        backgroundColor: DefaultTheme.colors.surface
     },
     placeholderTextContainer: {
         position: "absolute",
@@ -79,12 +82,12 @@ const styles = {
         width: "100%",
         height: "100%",
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     placeholderText: {
-        color: "#808080"
+        color: DefaultTheme.colors.placeholder
     },
     errorText: {
-        color: "#ff0000"
+        color: DefaultTheme.colors.accent
     }
 }
