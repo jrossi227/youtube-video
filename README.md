@@ -1,4 +1,4 @@
-### Running Youtube Vide
+### Running Youtube Video
 
 You must have an Android and IOS Simulator available to run the app. See the instructions [IOS Simulator](https://docs.expo.io/workflow/ios-simulator/) and [Android Simulator](https://docs.expo.io/workflow/android-studio-emulator/) for information regarding the setup of these simulators. 
 
