@@ -19,6 +19,8 @@ class YouTubeSearch {
     isLoaded = false;
 
     data = null;
+
+    @observable
     error = null;
 
     videoId = null;
@@ -83,13 +85,17 @@ class YouTubeSearch {
                     }
 
                     if (!this.videoId) {
-                        this.error = "Missing Video ID";
+                        this.error = "Unable to find a matching video";
                     }
                 })
 
             })
             .catch((error) => {
-                this.error = error;
+                runInAction(() => {
+                    this.error = error;
+                    this.isLoaded = true;
+                })
+
             });
 
         return this.loadPromise;

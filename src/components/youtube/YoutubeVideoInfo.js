@@ -11,7 +11,7 @@ class YoutubeVideoInfo extends React.Component {
 
         const youtubeSearch = YoutubeSearchStore.currentYoutubeSearch;
         let textView;
-        if (!youtubeSearch || !youtubeSearch.isLoaded) {
+        if (!youtubeSearch || !youtubeSearch.isLoaded || youtubeSearch.error) {
             return null;
         } else {
             textView = this.getVideoSummary(youtubeSearch);

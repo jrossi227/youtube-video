@@ -13,7 +13,9 @@ class YoutubeVideo extends React.Component {
         const youtubeSearch = YoutubeSearchStore.currentYoutubeSearch;
 
         let placeholderText = "Search for a video";
-        if (youtubeSearch && youtubeSearch.isLoading && !youtubeSearch.error) {
+        if (youtubeSearch && youtubeSearch.error) {
+            placeholderText = "";
+        } else if (youtubeSearch && youtubeSearch.isLoading) {
             placeholderText = "Loading..."
         }
 
@@ -36,7 +38,7 @@ class YoutubeVideo extends React.Component {
         if (youtubeSearch.error) {
             return (
                 <View style={styles.placeholderTextContainer}>
-                    <Text style={styles.errorText}>Error loading video</Text>
+                    <Text style={styles.errorText}>{youtubeSearch.error}</Text>
                 </View>
             )
         }
@@ -88,6 +90,6 @@ const styles = {
         color: DefaultTheme.colors.placeholder
     },
     errorText: {
-        color: DefaultTheme.colors.accent
+        color: DefaultTheme.colors.error
     }
 }
